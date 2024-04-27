@@ -26,11 +26,11 @@ variable "account_kind" {
 }
 
 variable "access_tier" {
-    description = "The access Tier to use for this storage account."
+    description = "The access Tier to use for this storage account"
 }
 
 variable "enable_https_traffic_only" {
-    description = "Boolean flag to enable HTTPS"
+    description = "Allow or disallow HTTPS"
     type = bool
     default = true
 }
@@ -53,7 +53,7 @@ variable "public_network_access_enabled" {
 }
 
 variable "default_to_oauth_authentication" {
-    description = "Allow or disallow Azure Active Directory authorization in the Azure portal when accessing the Storage Account."
+    description = "Allow or disallow Azure Active Directory authorization in the Azure portal when accessing the Storage Account"
     type = bool
     default = false
 }
@@ -105,6 +105,7 @@ variable "blob_exposed_headers" {
 
 variable "blob_max_age_in_seconds" {
     description = "The number of seconds the client should cache a preflight response"
+    type = number
     default = 3600
 }
 
@@ -128,16 +129,19 @@ variable "user_assigned_identity_id" {
 
 variable "retention_days" {
     description = "Specifies the number of days blob or logs should be retained"
-    default = 90
+    type = number
+    default = 7
 }
 
 variable "restore_days" {
     description = "Specifies the number of days that the blob can be restored"
-    default = 90
+    type = number
+    default = 7
 }
 
 variable "container_retention_days" {
     description = "Specifies the number of days that the container should be retained"
+    type = number
     default = 7
 }
 
@@ -148,6 +152,7 @@ variable "identity_type" {
 
 variable "identity_ids" {
     description = "Specifies a list of User Assigned Managed Identity IDs to be assigned to the Storage Account"
+    type = list()
 }
 
 variable "versioning_enabled" {
@@ -157,112 +162,274 @@ variable "versioning_enabled" {
 }
 
 variable "change_feed_enabled" {
+    description = "enable or disable blob service properties for change feed events"
+    type = bool
+    default = false
 }
 
-variable "change_feed_retention_days" {}
+variable "change_feed_retention_days" {
+    description = "The duration of change feed events retention in days"
+    type = number
+    default = null
+}
 
-variable "default_service_version" {}
+variable "default_service_version" {
+    description = "The API Version which should be used by default for requests to the Data Plane API"
+}
 
-variable "last_access_time_enabled" {}
+variable "last_access_time_enabled" {
+    description = "enable or disable last access time based tracking"
+    type = bool
+    default = false
+}
 
-variable "queue_allowed_headers" {}
+variable "queue_allowed_headers" {
+    description = "A list of queue headers that are allowed to be a part of the cross-origin request"
+    type = list()
+    default = ["*"]
+}
 
-variable "queue_allowed_methods" {}
+variable "queue_allowed_methods" {
+    description = "A list of HTTP methods that are allowed to be executed by the origin"
+    type = list()
+    default = ["GET"]
+}
 
-variable "queue_allowed_origins" {}
+variable "queue_allowed_origins" {
+    description = "A list of origin domains that will be allowed by CORS"
+    type = list()
+}
 
-variable "queue_exposed_headers" {}
+variable "queue_exposed_headers" {
+    description = "A list of response headers that are exposed to CORS clients"
+    type = list()
+    default = ["*"]
+}
 
-variable "queue_max_age_in_seconds" {}
+variable "queue_max_age_in_seconds" {
+    description = "The number of seconds the client should cache a preflight response"
+    type = number
+    default = 3600
+}
 
-variable "delete_requests" {}
+variable "delete_requests" {
+    description = "Indicates whether all delete requests should be logged"
+    type = bool
+    default = false
+}
 
-variable "read_requests" {}
+variable "read_requests" {
+    description = "Indicates whether all read requests should be logged"
+    type = bool
+    default = false
+}
 
-variable "storage_analytics_version" {}
+variable "storage_analytics_version" {
+    description = "The version of storage analytics to configure"
+}
 
-variable "write_requests" {}
+variable "write_requests" {
+    description = "Indicates whether all write requests should be logged"    
+    type = bool
+    default = false
+}
 
-variable "minute_metrics_enabled" {}
+variable "minute_metrics_enabled" {
+    description = "enable or disable  minute metrics for the Queue service"
+    type = bool
+    default = false    
+}
 
-variable "include_apis" {}
+variable "include_apis" {
+    description = "Indicates whether metrics should generate summary statistics for called API operations"
+    type = bool
+    default = false  
+}
 
-variable "hour_metrics_enabled" {}
+variable "hour_metrics_enabled" {
+    description = "enable or disable hour metrics for the Queue service"
+    type = bool
+    default = false 
+}
 
-variable "shared_access_key_enabled" {}
+variable "shared_access_key_enabled" {
+    description = "Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key"
+    type = bool
+    default = true
+}
 
-variable "index_document" {}
+variable "index_document" {
+    description = "The webpage that Azure Storage serves for requests to the root of a website or any subfolder"
+}
 
-variable "error_404_document" {}
+variable "error_404_document" {
+    description = "The absolute path to a custom webpage that should be used when a request is made which does not correspond to an existing file"
+}
 
-variable "share_allowed_headers" {}
+variable "share_allowed_headers" {
+    description = "A list of share headers that are allowed to be a part of the cross-origin request"
+    type = list()
+    default = ["*"]
+}
 
-variable "share_allowed_methods" {}
+variable "share_allowed_methods" {
+    description = "A list of HTTP methods that are allowed to be executed by the origin"
+    type = list()
+    default = ["GET"]    
+}
 
-variable "share_allowed_origins" {}
+variable "share_allowed_origins" {
+    description = "A list of origin domains that will be allowed by CORS"
+    type = list()
+}
 
-variable "share_exposed_headers" {}
+variable "share_exposed_headers" {
+    description = "A list of response headers that are exposed to CORS clients"
+    type = list()
+    default = ["*"]
+}
 
-variable "share_max_age_in_seconds" {}
+variable "share_max_age_in_seconds" {
+    description = "The number of seconds the client should cache a preflight response"
+    type = number
+    default = 3600
+}
 
-variable "smb_versions" {}
+variable "smb_versions" {
+    description = "A set of SMB protocol versions"
+}
 
-variable "authentication_types" {}
+variable "authentication_types" {
+    description = "A set of SMB authentication methods"
+}
 
-variable "kerberos_encryption_type" {}
+variable "kerberos_encryption_type" {
+    description = "A set of Kerberos ticket encryption"
+}
 
-variable "channel_encryption_type" {}
+variable "channel_encryption_type" {
+    description = "A set of SMB channel encryption"
+}
 
-variable "multichannel_enabled" {}
+variable "multichannel_enabled" {
+    description = "enable or disable multichannel"
+    default = false
+}
 
-variable "large_file_share_enabled" {}
+variable "large_file_share_enabled" {
+    description = "enable or disable large File Share"
+}
 
-variable "default_network_rule" {}
+variable "default_network_rule" {
+    description = "Specifies the default action of allow or deny when no other rules match"
+}
 
-variable "traffic_bypass" {}
+variable "traffic_bypass" {
+    description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices"
+}
 
-variable "ip_rules" {}
+variable "ip_rules" {
+    description = "List of public IP or IP ranges in CIDR Format"
+}
 
-variable "subnet_ids" {}
+variable "subnet_ids" {
+    description = "A list of resource ids for subnets"
+    type = list()
+}
 
-variable "endpoint_resource_id" {}
+variable "endpoint_resource_id" {
+   description = "The ID of the Azure resource that should be allowed access to the target storage account" 
+}
 
-variable "endpoint_tenant_id" {}
+variable "endpoint_tenant_id" {
+    description = "The tenant id of the resource of the resource access rule to be granted access"
+}
 
-variable "local_user_enabled" {}
+variable "local_user_enabled" {
+    description = "enable or disable local user"
+    type = bool
+    default = true
+}
 
-variable "directory_type" {}
+variable "directory_type" {
+    description = "Specifies the directory service used"
+}
 
-variable "domain_name" {}
+variable "domain_name" {
+    description = "Specifies the primary domain that the AD DNS server is authoritative for"
+}
 
-variable "domain_guid" {}
+variable "domain_guid" {
+    description = "Specifies the domain GUID"
+}
 
-variable "domain_sid" {}
+variable "domain_sid" {
+    description = "Specifies the security identifier (SID)"
+}
 
-variable "storage_sid" {}
+variable "storage_sid" {
+    description = "Specifies the security identifier (SID) for Azure Storage"
+}
 
-variable "forest_name" {}
+variable "forest_name" {
+    description = "Specifies the Active Directory forest"
+}
 
-variable "netbios_domain_name" {}
+variable "netbios_domain_name" {
+    description = "Specifies the NetBIOS domain name"
+}
 
-variable "publish_internet_endpoints" {}
+variable "publish_internet_endpoints" {
+    description = "publish or suppress internet routing storage endpoints"
+    type = bool
+    default = false
+}
 
-variable "publish_microsoft_endpoints" {}
+variable "publish_microsoft_endpoints" {
+    description = "publish or suppress Microsoft routing storage endpoints"
+    type = bool
+    default = false
+}
 
-variable "routing_choice" {}
+variable "routing_choice" {
+    description = "Specifies the kind of network routing opted by the user"
+    default = "MicrosoftRouting"
+}
 
-variable "allow_protected_append_writes" {}
+variable "allow_protected_append_writes" {
+    description = "enable or disable writting new blocks to an append blob while maintaining immutability protection and compliance"
+    type = bool
+}
 
-variable "immutability_state" {}
+variable "immutability_state" {
+    description = "Defines the mode of the policy"
+}
 
-variable "immutability_days" {}
+variable "immutability_days" {
+    description = "The immutability period for the blobs in the container since the policy creation, in days"
+    type = number
+}
 
-variable "sas_expiration_period" {}
+variable "sas_expiration_period" {
+    description = "The SAS expiration period in format of DD.HH:MM:SS"
+}
 
-variable "sas_expiration_action" {}
+variable "sas_expiration_action" {
+    description = "The SAS expiration action"
+    default = "Log"
+}
 
-variable "allowed_copy_scope" {}
+variable "allowed_copy_scope" {
+    description = "Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet"
+}
 
-variable "sftp_enabled" {}
+variable "sftp_enabled" {
+    description = "enable or disable SFTP for the storage account"
+    type = bool
+    default = false
+}
 
-variable "dns_endpoint_type" {}
+variable "dns_endpoint_type" {
+    description = "Specifies which DNS endpoint type to use"
+    default = "Standard"
+}
